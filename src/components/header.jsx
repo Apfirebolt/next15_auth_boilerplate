@@ -5,7 +5,7 @@ const Header = () => {
     <header className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-white text-2xl font-bold">
-          <Link href="/">MyApp</Link>
+          <Link href="/">Next Auth</Link>
         </h1>
         <nav>
           <ul className="flex space-x-4">
@@ -22,6 +22,16 @@ const Header = () => {
             <li>
               <Link href="/contact" className="text-white hover:text-gray-400">
                 Contact
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="text-white hover:text-gray-400">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link href="/register" className="text-white hover:text-gray-400">
+                Register
               </Link>
             </li>
           </ul>
