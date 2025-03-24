@@ -37,10 +37,8 @@ export const register = createAsyncThunk(
 // Login user
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
-    console.log('Promise pending inside login')
     return await authService.login(user)
   } catch (error) {
-    console.log('Promise rejected inside login')
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
@@ -125,7 +123,6 @@ export const authSlice = createSlice({
         state.isLoading = false
         state.isError = true
         state.message = action.payload
-        console.log('Action payload', action.payload)
         state.user = null
       })
       .addCase(getUserProfile.pending, (state) => {
