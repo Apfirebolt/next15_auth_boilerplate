@@ -35,7 +35,7 @@ const login = async (userData) => {
 
 // Logout user
 const logout = () => {
-  Cookies.remove("token");
+  Cookies.remove("user");
 };
 
 // Get user profile

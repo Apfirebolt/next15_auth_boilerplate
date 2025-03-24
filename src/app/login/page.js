@@ -2,7 +2,7 @@
 
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { login, resetError, resetSuccess } from "@/features/auth/authSlice";
+import { login, resetError, resetSuccess, resetMessage } from "@/features/auth/authSlice";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,10 @@ const LoginPage = () => {
 
   const onSubmit = (data) => {
     dispatch(login(data));
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }
+    , 3000);
   };
 
   useEffect(() => {
@@ -39,6 +43,7 @@ const LoginPage = () => {
       <main>
         <section className="container mx-auto p-6">
           <h1 className="text-4xl font-bold mb-4">Login</h1>
+          {message && <p className="text-red-500 mb-4">{message}</p>}
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-lg font-medium mb-2" htmlFor="email">

@@ -1,20 +1,28 @@
+// src/middleware/tokenValidation.js
+
 import jwt from 'jsonwebtoken';
 
-const validateToken = (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
-
-  console.log(token);
-
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Unauthorized Please login' });
-  }
-
+const validateToken = async (req) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECREAT);
-    req.user = decoded;
-    next();
+    const authHeader = req.headers.get('authorization');
+    const token = authHeader && authHeader.split(' ')[1];
+    let message = 'Unauthorized Please login';
+
+    if (!token) {
+      message = 'No token, authorization denied';
+      return Response.json({ success: false, message }, { status: 401 });
+    }
+
+    // token verification
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+    } catch (jwtError) {
+      return Response.json({ success: false, message: 'Invalid token' }, { status: 401 });
+    }
+
+    return null; // Token is valid
   } catch (error) {
-    return res.status(401).json({ success: false, message: 'Unauthorized Please login' });
+    return Response.json({ success: false, message }, { status: 401 });
   }
 };
 

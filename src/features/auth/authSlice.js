@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 import Cookies from 'js-cookie'
+import { set } from 'mongoose'
 
 // Get user from cookie
 const user = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null
@@ -90,6 +91,9 @@ export const authSlice = createSlice({
     resetError: (state) => {
       state.isError = false
     },
+    resetMessage: (state) => {
+      state.message = ''
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -121,6 +125,7 @@ export const authSlice = createSlice({
         state.isLoading = false
         state.isError = true
         state.message = action.payload
+        console.log('Action payload', action.payload)
         state.user = null
       })
       .addCase(getUserProfile.pending, (state) => {
@@ -146,5 +151,5 @@ export const authSlice = createSlice({
   },
 })
 
-export const { reset, resetError, resetSuccess } = authSlice.actions
+export const { reset, resetError, resetSuccess, resetMessage } = authSlice.actions
 export default authSlice.reducer

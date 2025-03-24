@@ -1,6 +1,27 @@
+'use client';
+
 import Link from "next/link";
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { logout, resetMessage } from '@/features/auth/authSlice';
 
 const Header = () => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const [isClient, setIsClient] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 3000)
+  }
+
+  useEffect(() => {
+    setIsClient(true);
+  }
+  , []);
+
   return (
     <header className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -24,16 +45,29 @@ const Header = () => {
                 Contact
               </Link>
             </li>
-            <li>
-              <Link href="/login" className="text-white hover:text-gray-400">
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link href="/register" className="text-white hover:text-gray-400">
-                Register
-              </Link>
-            </li>
+            {isClient && user ? (
+              <>
+                <li className="text-white">Welcome, {user.email}</li>
+                <li>
+                  <button onClick={handleLogout} className="text-white hover:text-gray-400">
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/login" className="text-white hover:text-gray-400">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/register" className="text-white hover:text-gray-400">
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
