@@ -1,13 +1,17 @@
 import axiosInstance from "@/plugins/interceptor";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 // Register user
 const register = async (userData) => {
   try {
     const response = await axiosInstance.post("auth/register", userData);
+    if (response.data) {
+      // set cookie
+      Cookies.set("user", JSON.stringify(response.data), { expires: 30 });
+    }
     return response.data;
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return Promise.reject(err);
   }
 };
@@ -19,11 +23,11 @@ const login = async (userData) => {
 
     if (response.data) {
       // set cookie
-      Cookies.set('token', response.data.token, { expires: 30 });
+      Cookies.set("user", JSON.stringify(response.data), { expires: 30 });
     }
     return response.data;
   } catch (err) {
-    console.error(err)
+    console.error(err);
     // reject
     return Promise.reject(err);
   }
@@ -31,7 +35,7 @@ const login = async (userData) => {
 
 // Logout user
 const logout = () => {
-  Cookies.remove('token');
+  Cookies.remove("token");
 };
 
 // Get user profile
@@ -46,7 +50,7 @@ const getUserProfile = async (token) => {
     const response = await axiosInstance.get("profile", config);
     return response.data;
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return Promise.reject(err);
   }
 };
