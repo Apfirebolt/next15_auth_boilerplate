@@ -7,11 +7,11 @@ import User from '@/models/User';
 export async function GET(req) {
   await ConnectDB();
 
-  const validationResult = await validateToken(req);
+  // const validationResult = await validateToken(req);
 
-  if (validationResult) { // Check if validationResult is a Response object
-    return validationResult; // Return the error Response
-  }
+  // if (validationResult) { // Check if validationResult is a Response object
+  //   return validationResult; // Return the error Response
+  // }
 
   try {
     const users = await User.find().select('-password');
