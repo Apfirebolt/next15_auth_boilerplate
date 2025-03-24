@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 // Register user
 const register = async (userData) => {
   try {
-    const response = await axiosInstance.post("users", userData);
+    const response = await axiosInstance.post("auth/register", userData);
     return response.data;
   } catch (err) {
     console.error(err)
@@ -15,7 +15,7 @@ const register = async (userData) => {
 // Login user
 const login = async (userData) => {
   try {
-    const response = await axiosInstance.post("users/login", userData);
+    const response = await axiosInstance.post("auth/login", userData);
 
     if (response.data) {
       // set cookie
