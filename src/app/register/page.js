@@ -45,9 +45,9 @@ const RegisterPage = () => {
     <Fragment>
       <Header />
       <main>
-        <section className="container mx-auto p-6">
+        <section className="container mx-auto w-1/2 p-6">
           <h1 className="text-4xl font-bold mb-4">Register</h1>
-          {message && <p className="text-red-500 mb-4">{message}</p>}
+          {message && <p className="text-accent bg-secondary px-2 py-1 mb-4">{message}</p>}
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-lg font-medium mb-2" htmlFor="name">
@@ -95,7 +95,7 @@ const RegisterPage = () => {
               )}
             </div>
             <button
-              className="bg-blue-500 text-white p-2 rounded"
+              className="bg-secondary text-white p-2 rounded"
               type="submit"
             >
               Register

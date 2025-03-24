@@ -23,25 +23,25 @@ const Header = () => {
   , []);
 
   return (
-    <header className="bg-gray-800 p-4">
+    <header className="bg-primary text-accent p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-white text-2xl font-bold">
+        <h1 className="text-2xl font-bold">
           <Link href="/">Next Auth</Link>
         </h1>
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link href="/" className="text-white hover:text-gray-400">
+              <Link href="/" className="hover:text-gray-400">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/about" className="text-white hover:text-gray-400">
+              <Link href="/about" className="hover:text-gray-400">
                 About
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="text-white hover:text-gray-400">
+              <Link href="/contact" className="hover:text-gray-400">
                 Contact
               </Link>
             </li>
@@ -57,12 +57,12 @@ const Header = () => {
             ) : (
               <>
                 <li>
-                  <Link href="/login" className="text-white hover:text-gray-400">
+                  <Link href="/login" className="hover:text-gray-400">
                     Login
                   </Link>
                 </li>
                 <li>
-                  <Link href="/register" className="text-white hover:text-gray-400">
+                  <Link href="/register" className="hover:text-gray-400">
                     Register
                   </Link>
                 </li>
