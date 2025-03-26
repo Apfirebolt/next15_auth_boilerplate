@@ -2,6 +2,7 @@
 
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { FaKey, FaEnvelope, FaSignInAlt } from "react-icons/fa";
 import {
   login,
   resetError,
@@ -65,12 +66,17 @@ const LoginPage = () => {
                   >
                     Email
                   </label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded focus:border-blue-500"
-                    type="email"
-                    id="email"
-                    {...register("email", { required: "Email is required" })}
-                  />
+                  <div className="flex items-center border border-gray-300 rounded focus-within:border-blue-500">
+                    <span className="p-2 text-gray-500">
+                      <FaEnvelope />
+                    </span>
+                    <input
+                      className="w-full p-2 outline-none"
+                      type="email"
+                      id="email"
+                      {...register("email", { required: "Email is required" })}
+                    />
+                  </div>
                   {errors.email && (
                     <p className="text-red-500">{errors.email.message}</p>
                   )}
@@ -82,22 +88,28 @@ const LoginPage = () => {
                   >
                     Password
                   </label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded focus:border-blue-500"
-                    type="password"
-                    id="password"
-                    {...register("password", {
-                      required: "Password is required",
-                    })}
-                  />
+                  <div className="flex items-center border border-gray-300 rounded focus-within:border-blue-500">
+                    <span className="p-2 text-gray-500">
+                      <FaKey />
+                    </span>
+                    <input
+                      className="w-full p-2 outline-none"
+                      type="password"
+                      id="password"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                    />
+                  </div>
                   {errors.password && (
                     <p className="text-red-500">{errors.password.message}</p>
                   )}
                 </div>
                 <button
-                  className="bg-secondary text-white p-2 rounded"
+                  className="flex items-center justify-center bg-secondary text-white p-2 rounded w-full"
                   type="submit"
                 >
+                  <FaSignInAlt className="mr-2" />
                   Login
                 </button>
               </form>

@@ -11,6 +11,7 @@ import {
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { useForm } from "react-hook-form";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -59,55 +60,64 @@ const RegisterPage = () => {
                 </p>
               )}
               <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                <div>
+                <div className="relative">
                   <label
                     className="block text-lg font-medium mb-2"
                     htmlFor="name"
                   >
                     Name
                   </label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="text"
-                    id="name"
-                    {...register("name", { required: "Name is required" })}
-                  />
+                  <div className="flex items-center">
+                    <FaUser className="absolute ml-2 text-gray-500" />
+                    <input
+                      className="w-full p-2 pl-8 border border-gray-300 rounded"
+                      type="text"
+                      id="name"
+                      {...register("name", { required: "Name is required" })}
+                    />
+                  </div>
                   {errors.name && (
                     <p className="text-red-500">{errors.name.message}</p>
                   )}
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     className="block text-lg font-medium mb-2"
                     htmlFor="email"
                   >
                     Email
                   </label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="email"
-                    id="email"
-                    {...register("email", { required: "Email is required" })}
-                  />
+                  <div className="flex items-center">
+                    <FaEnvelope className="absolute ml-2 text-gray-500" />
+                    <input
+                      className="w-full p-2 pl-8 border border-gray-300 rounded"
+                      type="email"
+                      id="email"
+                      {...register("email", { required: "Email is required" })}
+                    />
+                  </div>
                   {errors.email && (
                     <p className="text-red-500">{errors.email.message}</p>
                   )}
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     className="block text-lg font-medium mb-2"
                     htmlFor="password"
                   >
                     Password
                   </label>
-                  <input
-                    className="w-full p-2 border border-gray-300 rounded"
-                    type="password"
-                    id="password"
-                    {...register("password", {
-                      required: "Password is required",
-                    })}
-                  />
+                  <div className="flex items-center">
+                    <FaLock className="absolute ml-2 text-gray-500" />
+                    <input
+                      className="w-full p-2 pl-8 border border-gray-300 rounded"
+                      type="password"
+                      id="password"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                    />
+                  </div>
                   {errors.password && (
                     <p className="text-red-500">{errors.password.message}</p>
                   )}

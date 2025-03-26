@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import PrivateRoute from "@/components/privateRoute";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { FaUser, FaEnvelope, FaPaperPlane } from "react-icons/fa";
+import { MdMessage } from "react-icons/md";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +30,6 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
   };
 
   useEffect(() => {
@@ -75,48 +76,64 @@ const ContactPage = () => {
                   <label className="block text-gray-700 font-medium mb-2">
                     Name
                   </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
-                    placeholder="Enter your name"
-                    required
-                  />
+                  <div className="flex items-center border border-gray-300 rounded-lg">
+                    <span className="px-3 text-gray-500">
+                      <FaUser />
+                    </span>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="mb-6">
                   <label className="block text-gray-700 font-medium mb-2">
                     Email
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
-                    placeholder="Enter your email"
-                    required
-                  />
+                  <div className="flex items-center border border-gray-300 rounded-lg">
+                    <span className="px-3 text-gray-500">
+                      <FaEnvelope />
+                    </span>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="mb-6">
                   <label className="block text-gray-700 font-medium mb-2">
                     Message
                   </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
-                    placeholder="Write your message"
-                    rows="5"
-                    required
-                  />
+                  <div className="flex items-start border border-gray-300 rounded-lg">
+                    <span className="px-3 text-gray-500 pt-3">
+                      <MdMessage />
+                    </span>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary"
+                      placeholder="Write your message"
+                      rows="5"
+                      required
+                    />
+                  </div>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-secondary text-white py-3 px-4 rounded-lg font-semibold text-lg hover:bg-accent transition duration-300"
+                  className="w-full bg-secondary text-white py-3 px-4 rounded-lg font-semibold text-lg flex items-center justify-center hover:bg-accent transition duration-300"
                 >
+                  <FaPaperPlane className="mr-2" />
                   Send Message
                 </button>
               </form>
