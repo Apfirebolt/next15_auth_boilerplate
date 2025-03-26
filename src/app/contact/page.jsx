@@ -28,7 +28,6 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log(formData);
   };
 
@@ -41,66 +40,88 @@ const ContactPage = () => {
       <Header />
       <main>
         <section className="container mx-auto p-6">
-          <h1 className="text-4xl font-bold mb-4">About Us</h1>
-          {users.length > 0 && (
-            <div className="mb-6 text-center mx-auto container">
-              <h3 className="text-xl font-semibold my-3">Users</h3>
-              <ul className="pl-5">
+          <h1 className="text-5xl font-extrabold text-center mb-8 text-primary">
+            Contact Us
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div className="flex flex-col justify-center items-center bg-gray-100 p-6 rounded-lg shadow-md">
+              <h2 className="text-2xl font-bold text-secondary mb-4">
+                Our Users
+              </h2>
+              <ul className="pl-5 space-y-2">
                 {users.map((user) => (
-                  <li key={user._id} className="text-gray-700">
+                  <li
+                    key={user._id}
+                    className="text-gray-700 text-lg font-medium"
+                  >
                     {user.name} - {user.email}
                   </li>
                 ))}
               </ul>
             </div>
-          )}
-          <p className="text-lg mb-4">
-            Welcome to our website! Feel free to contact us using the form below.
-          </p>
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white p-6 rounded shadow-md w-1/2 mx-auto my-3"
-          >
-            <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-            <div className="mb-4">
-              <label className="block text-gray-700">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
+            <div className="flex flex-col justify-center items-center bg-gray-100 p-6 rounded-lg shadow-md">
+              <h2 className="text-2xl font-bold text-secondary mb-4">
+                Business Hours
+              </h2>
+              <p className="text-lg text-center mb-8 text-gray-600">
+                Have any questions? Feel free to reach out to us using the form
+                below. We'd love to hear from you!
+              </p>
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg mx-auto"
+              >
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+                    placeholder="Enter your name"
+                    required
+                  />
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+                    placeholder="Write your message"
+                    rows="5"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-secondary text-white py-3 px-4 rounded-lg font-semibold text-lg hover:bg-accent transition duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Message</label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-secondary text-white py-2 px-3 rounded hover:bg-accent"
-            >
-              Submit
-            </button>
-          </form>
+          </div>
         </section>
       </main>
       <Footer />
