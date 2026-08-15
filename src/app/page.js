@@ -1,9 +1,9 @@
-'use client';
-
-import React, { useState } from "react";
-import Link from "next/link";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+// src/app/page.jsx
+import Link from 'next/link';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
+import MovieGrid from '@/components/movieGrid';
+import CopyInstallButton from '@/components/installButton';
 import {
   HiOutlineShieldCheck,
   HiOutlineCommandLine,
@@ -11,48 +11,90 @@ import {
   HiOutlineArrowRight,
   HiOutlineKey,
   HiOutlineCpuChip,
-  HiOutlineCheck,
-  HiOutlineSquare2Stack,
-} from "react-icons/hi2";
+} from 'react-icons/hi2';
 
 const features = [
   {
-    name: "Stateless JWT & Refresh Cycles",
+    name: 'Stateless JWT & Refresh Cycles',
     description:
-      "Tamper-proof token validation paired with automated cookie rotation and CSRF protection out of the box.",
+      'Tamper-proof token validation paired with automated cookie rotation and CSRF protection out of the box.',
     icon: HiOutlineKey,
   },
   {
-    name: "Global Redux Toolkit Sync",
+    name: 'Global Redux Toolkit Sync',
     description:
-      "Reactive auth slices providing instant access to authenticated user states, loading states, and error handling.",
+      'Reactive auth slices providing instant access to authenticated user states, loading states, and error handling.',
     icon: HiOutlineCircleStack,
   },
   {
-    name: "Edge Middleware Guards",
+    name: 'Edge Middleware Guards',
     description:
-      "Route protection that validates sessions at the edge boundary before executing compute or database requests.",
+      'Route protection that validates sessions at the edge boundary before executing compute or database requests.',
     icon: HiOutlineCpuChip,
   },
 ];
 
 const frameworks = [
-  "Next.js App Router",
-  "Tailwind CSS v3+",
-  "Redux Toolkit",
-  "React Hook Form",
-  "TypeScript / Modern JS",
+  'Next.js App Router',
+  'Tailwind CSS v3+',
+  'Redux Toolkit',
+  'React Hook Form',
+  'TypeScript / Modern JS',
 ];
 
-const Home = () => {
-  const [copied, setCopied] = useState(false);
-  const installCmd = "npx create-next-auth-app@latest";
+// Optional: Server-side data fetcher if needed on the homepage
+async function getTopMovies() {
+  const res = await fetch('https://imdb236.p.rapidapi.com/api/imdb/top-rated-english-movies', {
+    headers: {
+      'x-rapidapi-host': process.env.RAPIDAPI_HOST,
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY,
+    },
+    next: { revalidate: 3600 },
+  });
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(installCmd);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+// 1. Dynamic SEO Metadata Function
+export async function generateMetadata() {
+  const movies = await getTopMovies();
+  const movie = movies[10];
+
+  if (!movie) {
+    return {
+      title: "Movie Not Found",
+      description: "Details for this movie could not be found.",
+    };
+  }
+
+  return {
+    title: `${movie.primaryTitle} (${movie.startYear}) | Movie Hub`,
+    description: movie.description,
+    openGraph: {
+      title: movie.primaryTitle,
+      description: movie.description,
+      images: [
+        {
+          url: movie.primaryImage,
+          alt: movie.primaryTitle,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: movie.primaryTitle,
+      description: movie.description,
+      images: [movie.primaryImage],
+    },
   };
+}
+
+export default async function HomePage() {
+  // If you need data, fetch it right here:
+  const movies = await getTopMovies();
+
+  console.log('Top Movies:', movies);
 
   return (
     <div className="flex min-h-screen flex-col bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
@@ -72,7 +114,7 @@ const Home = () => {
 
               {/* Title & Subhead */}
               <h1 className="mt-6 text-4xl font-bold tracking-tight text-neutral-900 sm:text-6xl dark:text-white">
-                Production-grade auth primitives for{" "}
+                Production-grade auth primitives for{' '}
                 <span className="bg-gradient-to-r from-neutral-900 via-neutral-600 to-neutral-400 bg-clip-text text-transparent dark:from-white dark:via-neutral-300 dark:to-neutral-500">
                   Next.js apps.
                 </span>
@@ -92,21 +134,8 @@ const Home = () => {
                   <HiOutlineArrowRight className="h-4 w-4" />
                 </Link>
 
-                {/* Copy CLI Box */}
-                <div className="flex w-full items-center justify-between gap-3 rounded-lg border border-neutral-200 bg-neutral-50 px-3.5 py-2 font-mono text-xs text-neutral-700 sm:w-auto dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
-                  <span>{installCmd}</span>
-                  <button
-                    onClick={handleCopy}
-                    aria-label="Copy install command"
-                    className="text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
-                  >
-                    {copied ? (
-                      <HiOutlineCheck className="h-4 w-4 text-emerald-500" />
-                    ) : (
-                      <HiOutlineSquare2Stack className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
+                {/* Isolated Client Component */}
+                <CopyInstallButton cmd="npx create-next-auth-app@latest" />
               </div>
 
               {/* Stack Badges */}
@@ -120,6 +149,24 @@ const Home = () => {
                   </span>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Movie Grid Section */}
+
+        <section className="py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+              Top Movies
+            </h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
+              Explore the highest-rated films.
+            </p>
+
+            {/* Movie Grid */}
+            <div className="mt-12">
+              <MovieGrid movies={movies} />
             </div>
           </div>
         </section>
@@ -149,9 +196,9 @@ const Home = () => {
               <div className="p-6 font-mono text-xs leading-relaxed overflow-x-auto text-neutral-300">
                 <p className="text-neutral-500">// Verify encrypted session token at edge boundary</p>
                 <p>
-                  <span className="text-purple-400">export async function</span>{" "}
+                  <span className="text-purple-400">export async function</span>{' '}
                   <span className="text-blue-400">middleware</span>(
-                  <span className="text-orange-300">req</span>:{" "}
+                  <span className="text-orange-300">req</span>:{' '}
                   <span className="text-emerald-400">NextRequest</span>) &#123;
                 </p>
                 <p className="pl-4">
@@ -165,11 +212,11 @@ const Home = () => {
                 <p className="pl-8">
                   <span className="text-purple-400">return</span> NextResponse.
                   <span className="text-blue-300">redirect</span>(
-                  <span className="text-purple-400">new</span>{" "}
+                  <span className="text-purple-400">new</span>{' '}
                   <span className="text-blue-300">URL</span>(
                   <span className="text-emerald-300">&quot;/login&quot;</span>, req.url));
                 </p>
-                <p className="pl-4">&#123;</p>
+                <p className="pl-4">&#125;</p>
                 <p className="pl-4">
                   <span className="text-purple-400">return</span> NextResponse.
                   <span className="text-blue-300">next</span>();
@@ -249,6 +296,4 @@ const Home = () => {
       <Footer />
     </div>
   );
-};
-
-export default Home;
+}
