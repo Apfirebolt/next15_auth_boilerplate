@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from './authService'
 import Cookies from 'js-cookie'
-import { set } from 'mongoose'
 
 // Get user from cookie
 const user = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null

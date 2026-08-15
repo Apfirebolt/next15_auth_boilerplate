@@ -2,13 +2,13 @@
 
 import ConnectDB from "@/DB/connectDB";
 import User from "@/models/User";
-import Joi from "joi";
+import { z } from "zod";
 import { compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const schema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(8).required(),
+const schema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 export async function POST(req) {
@@ -16,18 +16,19 @@ export async function POST(req) {
 
   try {
     const body = await req.json(); // Parse the request body
-    const { email, password } = body;
-    const { error } = schema.validate({ email, password });
+    const result = schema.safeParse(body);
 
-    if (error) {
+    if (!result.success) {
       return Response.json(
         {
           success: false,
-          message: error.details[0].message.replace(/['"]+/g, ""),
+          message: result.error.issues[0].message,
         },
-        { status: 401 }
+        { status: 400 }
       );
     }
+
+    const { email, password } = result.data;
 
     const user = await User.findOne({ email });
 
